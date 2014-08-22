@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="store">
+  <head>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css"/>
+  </head>
+  <body ng-controller="StoreController as store">
+        <!-- directive = "ControllerName as(keyword) alias" -->
+    <div ng-repeat="product in store.products"> 
+    <!-- take out store in {{store.product.name}} when iterating -->
+    <div ng-hide="product.soldOut">
+      <h1> {{product.name}} </h1>
+      <h2> ${{product.price}} </h2>
+      <p> {{product.description}} </p>
+      <button ng-show="products.canPurchase">Add to Cart</button>
+    </div>
+    </div>
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <p>{{"hello" + " you"}}</p>
+  </body>
+</html>
