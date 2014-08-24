@@ -5,17 +5,55 @@
   </head>
   <body ng-controller="StoreController as store">
         <!-- directive = "ControllerName as(keyword) alias" -->
-    <div ng-repeat="product in store.products"> 
+    <li class="list-group-item" ng-repeat="product in store.products"> 
     <!-- take out store in {{store.product.name}} when iterating -->
-    <div ng-hide="product.soldOut">
-      <h1> {{product.name}} </h1>
-      <h2> ${{product.price}} </h2>
-      <p> {{product.description}} </p>
-      <button ng-show="products.canPurchase">Add to Cart</button>
-    </div>
-    </div>
+      <div ng-hide="product.soldOut">
+        <h3> {{product.name}} 
+        <em class="pull-right">{{product.price | currency}}</em>
+        <!-- <img ng-src="{{product.images[0].full}}"/> -->
+        </h3>
+        <section ng-controller="PanelController as panel">
+          <ul class="nav nav-pills">
+            <li ng-class="{ active: panel.isSelected(1) }">
+<!--                      name of the class to set:expression to evaluate 
+(if true, set class to 'active', otherwise nothing) -->
+              <a href ng-click="panel.selectTab(1)">Description</a>
+            </li>
+            <li ng-class="{ active: panel.isSelected(2) }">
+              <a href ng-click="panel.selectTab(2)">Specifications</a>
+            </li>
+            <li ng-class="{ active: panel.isSelected(3) }">
+              <a href ng-click="panel.selectTab(3)">Reviews</a>
+            </li>
+          </ul>
+        </section>
+        <div class="panel" ng-show="panel.isSelected(1)">
+          <h4>Description</h4>
+          <p>{{product.description}}</p>
+        </div>        
+        <div class="panel" ng-show="panel.isSelected(2)">
+          <h4>Specifications</h4>
+          <blockquote>None yet</blockquote>
+        </div>        
+        <div class="panel" ng-show="panel.isSelected(3)">
+          <h4>Reviews</h4>
+          <blockquote>None yet</blockquote>
+        </div>
+        <button ng-show="product.canPurchase">Add to Cart</button>
+      </div>
+    </li>
     <script type="text/javascript" src="angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
-    <p>{{"hello" + " you"}}</p>
   </body>
 </html>
+<!-- data filters
+{{ data | filter:options }}
+date
+{{ '1388123412323' | date: 'MM/dd/yyyy @ h:mma'}} => 12/27/2013 @ 12:50AM
+uppercase & lowercase
+{{ 'octagon gem' | uppercase }} => OCTAGON GEM
+limitTo
+{{ 'My Description' | limitTo:8 }}
+<li ng-repeat="product in store.products| limitTo:3">
+orderBy
+<li ng-repeat="product in store.products | orderBy:'-price'"> '-price' = descending order, '+price' = ascending order -->
