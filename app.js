@@ -1,28 +1,37 @@
 (function(){
 
-  var app = angular.module('store', []);
+  var app = angular.module('store', ['store-products']);
           // AngularJS   (App Name,  Dependencies)
 
-  app.controller('StoreController', function(){
-    this.products = [
-      {
-        name: 'Awesome Multi-touch Keyboard',
-        price: 250.00,
-        description: "...",
-        reviews: [
-          {
-            stars: 5,
-            body: "I love this product!",
-            author: "joe@thomas.com"
-          },
-          {
-            stars: 1,
-            body: "This product sucks",
-            author: "tim@hater.com"
-          }
-        ]
-      }
-    ];
+  app.controller('StoreController', [ '$http', function($http){
+                                //service needed    dependency injection
+    var store = this;
+    store.products = [];
+
+    $http.get('/products.json').success(function(data){
+      store.products = data;
+    });
+  }]);
+
+    // this.products = [
+    //   {
+    //     name: 'Awesome Multi-touch Keyboard',
+    //     price: 250.00,
+    //     description: "...",
+    //     reviews: [
+    //       {
+    //         stars: 5,
+    //         body: "I love this product!",
+    //         author: "joe@thomas.com"
+    //       },
+    //       {
+    //         stars: 1,
+    //         body: "This product sucks",
+    //         author: "tim@hater.com"
+    //       }
+    //     ]
+    //   }
+    // ];
   });
 
   // var gems = [
@@ -52,15 +61,15 @@
   // }
   // ];
 
-  app.controller("PanelController", function(){
-    this.tab = 1;
-    this.selectTab = function(setTab) {
-      this.tab = setTab;
-    };
-    this.isSelected = function(checkTab) {
-      return this.tab === checkTab;
-    };
-  });
+  // app.controller("PanelController", function(){
+  //   this.tab = 1;
+  //   this.selectTab = function(setTab) {
+  //     this.tab = setTab;
+  //   };
+  //   this.isSelected = function(checkTab) {
+  //     return this.tab === checkTab;
+  //   };
+  // });
 
   app.controller("ReviewController", function(){
     this.review = {};
@@ -71,32 +80,6 @@
     };
   });
 
-  // custom element directive
-  app.directive('productTitle', function(){
-    return {
-      restrict: 'E', //type of directive (E for element)
-      templateUrl: 'product-title.html' //Url of a template
-    };
-  });
 
-  // if we wanted to use attribute directive
-  // app.directive('productTitle', function(){
-  //   return {
-  //     restrict: 'A', //(A for attribute)
-  //     templateUrl: 'product-title.html'
-  //   };
-  // });
-  // would put <h3 product-title></h3> in index.html
-
-  app.directive('productPanels', function(){
-    return {
-      restrict: 'E',
-      templateUrl: 'product-panels.html',
-      controller:function(){
-
-      },
-      controllerAs: 'panels'
-    };
-  });
 
 })();
